@@ -21,15 +21,27 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-app.use(morgan("combined"));
+
+app.use(
+  morgan("dev", {
+    skip: (req, res) => res.statusCode < 400,
+  })
+);
+
 app.use(rateLimiter);
 
-// routes
+// Routes
 app.use("/api/profile", profileRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/", miscRoutes);
 
-// error handler
+// Catch-all for unknown routes
+app.use((req, res, next) => {
+  console.warn(`404 - Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: "Route not found" });
+});
+
+// Global error handler
 app.use(errorHandler);
 
 export default app;
