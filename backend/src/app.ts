@@ -33,7 +33,7 @@ app.use(rateLimiter);
 // Routes
 app.use("/api/profile", profileRoutes);
 app.use("/api/projects", projectRoutes);
-app.use("/", miscRoutes);
+app.use("/api", miscRoutes);
 
 // Catch-all for unknown routes
 app.use((req, res, next) => {

@@ -14,7 +14,7 @@ export default function ProfilePage() {
     setLoading(true);
     try {
       const data = await getProfile();
-      setProfile(data);
+      setProfile(data || null); // null if no profile exists
     } catch (err) {
       console.error(err);
       showMessage("error", "Failed to load profile. Please try again.");
@@ -48,9 +48,23 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {!editing ? (
+      {/* No profile exists */}
+      {!profile && !editing && (
+        <div className="text-center bg-white p-8 rounded-2xl shadow-lg space-y-4">
+          <h2 className="text-2xl font-bold text-gray-900">No profile found</h2>
+          <p className="text-gray-600">You haven’t added your profile yet. Click below to create one.</p>
+          <button
+            onClick={() => setEditing(true)}
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            Add Profile
+          </button>
+        </div>
+      )}
+
+      {/* Profile exists and not editing */}
+      {profile && !editing && (
         <>
-          {/* Profile Card */}
           <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h1 className="text-4xl font-extrabold text-gray-900 mb-2">{profile.name || "No Name"}</h1>
             <p className="text-gray-600 text-lg">{profile.email || "No Email"}</p>
@@ -90,27 +104,30 @@ export default function ProfilePage() {
                 <p className="text-gray-400 italic">No work experience added yet.</p>
               )}
             </div>
-          </div>
 
-          {/* Edit Button */}
-          <div className="text-center">
-            <button
-              onClick={() => setEditing(true)}
-              className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition"
-            >
-              Edit Profile
-            </button>
+            {/* Edit Button */}
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setEditing(true)}
+                className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition"
+              >
+                Edit Profile
+              </button>
+            </div>
           </div>
         </>
-      ) : (
+      )}
+
+      {/* Profile Form */}
+      {editing && (
         <ProfileForm
-          initialData={profile}
+          initialData={profile || undefined}
           onSuccess={async () => {
             try {
               await fetchProfile();
-              showMessage("success", "Profile updated successfully!");
+              showMessage("success", profile ? "Profile updated successfully!" : "Profile created successfully!");
             } catch {
-              showMessage("error", "Failed to update profile.");
+              showMessage("error", "Failed to save profile.");
             } finally {
               setEditing(false);
             }
