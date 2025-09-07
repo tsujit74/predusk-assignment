@@ -10,8 +10,20 @@ export const getProfile = async () => {
   return res.data;
 };
 
+// Create profile (replace if already exists)
+export const createProfile = async (data: any) => {
+  const res = await API.post("/profile", data);
+  return res.data;
+};
+
 // Update profile
 export const updateProfile = async (data: any) => {
   const res = await API.put("/profile", data);
+  return res.data;
+};
+
+// Delete profile
+export const deleteProfile = async () => {
+  const res = await API.delete("/profile");
   return res.data;
 };

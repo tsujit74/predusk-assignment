@@ -10,9 +10,26 @@ export const getProjects = async (params?: { search?: string; page?: number; lim
   return res.data;
 };
 
-// Get project by ID
+// Get single project by ID
 export const getProjectById = async (id: string) => {
   const res = await API.get(`/projects/${id}`);
   return res.data;
 };
 
+// Create new project
+export const createProject = async (data: any) => {
+  const res = await API.post("/projects", data);
+  return res.data;
+};
+
+// Update existing project
+export const updateProject = async (id: string, data: any) => {
+  const res = await API.put(`/projects/${id}`, data);
+  return res.data;
+};
+
+// Delete project
+export const deleteProject = async (id: string) => {
+  const res = await API.delete(`/projects/${id}`);
+  return res.data;
+};
