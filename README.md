@@ -109,6 +109,18 @@ See [Schema.md](./Schema.md) for detailed schema & API contract.
 
 ---
 
+## Remarks
+- Backend is deployed on **Render** and fully functional; frontend communicates with it successfully.
+- Current features:
+  - CRUD for Profile and Projects
+  - Skills & Work Experience management
+  - Responsive and interactive UI with toast notifications
+- Potential enhancements if more time were available:
+  - User authentication & role-based access
+  - Advanced search and filter for projects
+  - More robust form validations and error handling
+  - Export/import profile and project data
+
 ## 👨‍💻 Author
 
 **Sujit Thakur**
